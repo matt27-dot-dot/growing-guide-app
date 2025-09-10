@@ -7,6 +7,7 @@ import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 import { Checklist } from "./pages/Checklist";
 import { Profile } from "./pages/Profile";
+import { Navigation } from "./components/Navigation";
 
 const queryClient = new QueryClient();
 
@@ -23,6 +24,7 @@ const App = () => (
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
+        <Navigation />
       </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>

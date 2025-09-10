@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { WeekSelector } from "@/components/WeekSelector";
 import { Dashboard } from "@/pages/Dashboard";
-import { Navigation } from "@/components/Navigation";
 
 const Index = () => {
   const [currentWeek, setCurrentWeek] = useState<number | null>(null);
@@ -41,12 +40,7 @@ const Index = () => {
     );
   }
 
-  return (
-    <>
-      <Dashboard currentWeek={currentWeek} />
-      <Navigation />
-    </>
-  );
+  return <Dashboard currentWeek={currentWeek} />;
 };
 
 export default Index;
