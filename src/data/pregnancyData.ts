@@ -14,6 +14,46 @@ export const pregnancyMilestones = {
   40: "Your due date is here! Baby is ready to meet you! 👶"
 };
 
+export const babyEssentialsByCategory = {
+  "Feeding": [
+    "Baby bottles",
+    "Burp cloths",
+    "Pacifiers"
+  ],
+  "Clothing": [
+    "Baby clothes (0-3 months)",
+    "Onesies",
+    "Baby socks/booties",
+    "Swaddle blankets",
+    "Receiving blankets"
+  ],
+  "Diaper Care": [
+    "Diapers/Nappies",
+    "Baby wipes",
+    "Changing table/pad"
+  ],
+  "Sleep & Safety": [
+    "Crib/Bassinet",
+    "Car seat",
+    "Baby monitor"
+  ],
+  "Bathing & Grooming": [
+    "Baby lotion",
+    "Baby shampoo",
+    "Baby nail clippers"
+  ],
+  "Health & Safety": [
+    "Baby thermometer",
+    "First aid kit"
+  ],
+  "Transportation": [
+    "Stroller"
+  ]
+};
+
+// Legacy export for backward compatibility
+export const babyEssentials = Object.values(babyEssentialsByCategory).flat();
+
 export const getPregnancyInfo = (currentWeek: number) => {
   const totalWeeks = 40;
   const weeksRemaining = Math.max(0, totalWeeks - currentWeek);
@@ -40,26 +80,3 @@ export const getPregnancyInfo = (currentWeek: number) => {
     progress: (currentWeek / totalWeeks) * 100
   };
 };
-
-export const babyEssentials = [
-  "Baby bottles",
-  "Diapers/Nappies",
-  "Baby clothes (0-3 months)",
-  "Onesies",
-  "Swaddle blankets",
-  "Crib/Bassinet",
-  "Car seat",
-  "Stroller",
-  "Baby wipes",
-  "Baby lotion",
-  "Baby shampoo",
-  "Pacifiers",
-  "Burp cloths",
-  "Baby monitor",
-  "Changing table/pad",
-  "Baby thermometer",
-  "First aid kit",
-  "Baby nail clippers",
-  "Receiving blankets",
-  "Baby socks/booties"
-];

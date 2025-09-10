@@ -2,15 +2,16 @@ import { useState, useEffect } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Checkbox } from "@/components/ui/checkbox";
-import { Plus, Trash2, CheckCircle2 } from "lucide-react";
-import { babyEssentials } from "@/data/pregnancyData";
+import { Plus, CheckCircle2 } from "lucide-react";
+import { CategorySection } from "@/components/CategorySection";
+import { babyEssentialsByCategory } from "@/data/pregnancyData";
 
 interface ChecklistItem {
   id: string;
   text: string;
   completed: boolean;
   isCustom: boolean;
+  category?: string;
 }
 
 export const Checklist = () => {
@@ -18,13 +19,21 @@ export const Checklist = () => {
   const [newItem, setNewItem] = useState("");
 
   useEffect(() => {
-    // Initialize with baby essentials
-    const initialItems = babyEssentials.map((item, index) => ({
-      id: `essential-${index}`,
-      text: item,
-      completed: false,
-      isCustom: false,
-    }));
+    // Initialize with categorized baby essentials
+    const initialItems: ChecklistItem[] = [];
+    
+    Object.entries(babyEssentialsByCategory).forEach(([category, categoryItems]) => {
+      categoryItems.forEach((item, index) => {
+        initialItems.push({
+          id: `${category.toLowerCase()}-${index}`,
+          text: item,
+          completed: false,
+          isCustom: false,
+          category: category,
+        });
+      });
+    });
+    
     setItems(initialItems);
   }, []);
 
@@ -45,6 +54,7 @@ export const Checklist = () => {
         text: newItem.trim(),
         completed: false,
         isCustom: true,
+        category: "Custom Items",
       };
       setItems([...items, customItem]);
       setNewItem("");
@@ -60,6 +70,28 @@ export const Checklist = () => {
       addCustomItem();
     }
   };
+
+  // Group items by category
+  const itemsByCategory = items.reduce((acc, item) => {
+    const category = item.category || "Other";
+    if (!acc[category]) {
+      acc[category] = [];
+    }
+    acc[category].push(item);
+    return acc;
+  }, {} as Record<string, ChecklistItem[]>);
+
+  // Define category order
+  const categoryOrder = [
+    "Feeding",
+    "Clothing", 
+    "Diaper Care",
+    "Sleep & Safety",
+    "Bathing & Grooming",
+    "Health & Safety",
+    "Transportation",
+    "Custom Items"
+  ];
 
   return (
     <div className="min-h-screen bg-gradient-secondary p-4 pb-24">
@@ -123,51 +155,22 @@ export const Checklist = () => {
           </CardContent>
         </Card>
 
-        {/* Checklist Items */}
-        <Card className="bg-card/80 backdrop-blur shadow-card border-0">
-          <CardHeader className="pb-3">
-            <CardTitle className="text-lg">Essential Items</CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-3">
-            {items.map((item) => (
-              <div 
-                key={item.id}
-                className={`flex items-center gap-3 p-3 rounded-lg transition-all duration-200 ${
-                  item.completed 
-                    ? "bg-success/10 border border-success/20" 
-                    : "bg-secondary/30 hover:bg-secondary/50"
-                }`}
-              >
-                <Checkbox
-                  id={item.id}
-                  checked={item.completed}
-                  onCheckedChange={() => toggleItem(item.id)}
-                  className="data-[state=checked]:bg-success data-[state=checked]:border-success"
-                />
-                <label 
-                  htmlFor={item.id}
-                  className={`flex-1 cursor-pointer transition-all duration-200 ${
-                    item.completed 
-                      ? "line-through text-muted-foreground" 
-                      : "text-foreground"
-                  }`}
-                >
-                  {item.text}
-                </label>
-                {item.isCustom && (
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    onClick={() => removeCustomItem(item.id)}
-                    className="w-8 h-8 text-muted-foreground hover:text-destructive"
-                  >
-                    <Trash2 className="w-4 h-4" />
-                  </Button>
-                )}
-              </div>
-            ))}
-          </CardContent>
-        </Card>
+        {/* Categorized Items */}
+        {categoryOrder.map((category) => {
+          const categoryItems = itemsByCategory[category];
+          if (!categoryItems || categoryItems.length === 0) return null;
+          
+          return (
+            <CategorySection
+              key={category}
+              title={category}
+              items={categoryItems}
+              onToggleItem={toggleItem}
+              onRemoveItem={removeCustomItem}
+              defaultOpen={category !== "Custom Items"}
+            />
+          );
+        })}
       </div>
     </div>
   );
