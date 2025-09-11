@@ -14,7 +14,75 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      appointments: {
+        Row: {
+          created_at: string
+          date: string
+          id: string
+          location: string | null
+          notes: string | null
+          time: string
+          title: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          date: string
+          id?: string
+          location?: string | null
+          notes?: string | null
+          time: string
+          title: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          date?: string
+          id?: string
+          location?: string | null
+          notes?: string | null
+          time?: string
+          title?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          baby_name: string | null
+          created_at: string
+          id: string
+          name: string | null
+          pregnancy_week: number | null
+          profile_picture: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          baby_name?: string | null
+          created_at?: string
+          id?: string
+          name?: string | null
+          pregnancy_week?: number | null
+          profile_picture?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          baby_name?: string | null
+          created_at?: string
+          id?: string
+          name?: string | null
+          pregnancy_week?: number | null
+          profile_picture?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never

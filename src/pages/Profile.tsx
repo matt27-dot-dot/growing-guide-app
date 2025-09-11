@@ -4,41 +4,99 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Camera, User, Baby, Save } from "lucide-react";
+import { Camera, User, Baby, Save, LogOut } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { useAuth } from "@/contexts/AuthContext";
+import { supabase } from "@/integrations/supabase/client";
 
 interface ProfileData {
   name: string;
-  babyName: string;
-  profilePicture: string;
+  baby_name: string;
+  profile_picture: string;
+  pregnancy_week: number | null;
 }
 
 export const Profile = () => {
   const [profileData, setProfileData] = useState<ProfileData>({
     name: "",
-    babyName: "",
-    profilePicture: "",
+    baby_name: "",
+    profile_picture: "",
+    pregnancy_week: null,
   });
   const [isEditing, setIsEditing] = useState(false);
+  const [loading, setLoading] = useState(true);
   const { toast } = useToast();
+  const { user, signOut } = useAuth();
 
   useEffect(() => {
-    // Load saved profile data
-    const savedProfile = localStorage.getItem("pregnancyProfile");
-    if (savedProfile) {
-      setProfileData(JSON.parse(savedProfile));
-    } else {
-      setIsEditing(true);
-    }
-  }, []);
+    loadProfile();
+  }, [user]);
 
-  const handleSave = () => {
-    localStorage.setItem("pregnancyProfile", JSON.stringify(profileData));
-    setIsEditing(false);
-    toast({
-      title: "Profile saved! ✨",
-      description: "Your information has been updated successfully.",
-    });
+  const loadProfile = async () => {
+    if (!user) return;
+
+    try {
+      const { data, error } = await supabase
+        .from('profiles')
+        .select('*')
+        .eq('user_id', user.id)
+        .single();
+
+      if (error && error.code !== 'PGRST116') {
+        throw error;
+      }
+
+      if (data) {
+        setProfileData({
+          name: data.name || "",
+          baby_name: data.baby_name || "",
+          profile_picture: data.profile_picture || "",
+          pregnancy_week: data.pregnancy_week,
+        });
+      } else {
+        setIsEditing(true);
+      }
+    } catch (error) {
+      console.error('Error loading profile:', error);
+      toast({
+        title: "Error",
+        description: "Failed to load profile data",
+        variant: "destructive"
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleSave = async () => {
+    if (!user) return;
+
+    try {
+      const { error } = await supabase
+        .from('profiles')
+        .upsert({
+          user_id: user.id,
+          name: profileData.name,
+          baby_name: profileData.baby_name,
+          profile_picture: profileData.profile_picture,
+          pregnancy_week: profileData.pregnancy_week,
+        });
+
+      if (error) throw error;
+
+      setIsEditing(false);
+      toast({
+        title: "Profile saved! ✨",
+        description: "Your information has been updated successfully.",
+      });
+    } catch (error) {
+      console.error('Error saving profile:', error);
+      toast({
+        title: "Error",
+        description: "Failed to save profile",
+        variant: "destructive"
+      });
+    }
   };
 
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -48,7 +106,7 @@ export const Profile = () => {
       reader.onload = (e) => {
         setProfileData({
           ...profileData,
-          profilePicture: e.target?.result as string,
+          profile_picture: e.target?.result as string,
         });
       };
       reader.readAsDataURL(file);
@@ -63,6 +121,28 @@ export const Profile = () => {
       .toUpperCase()
       .slice(0, 2);
   };
+
+  const handleSignOut = async () => {
+    const { error } = await signOut();
+    if (error) {
+      toast({
+        title: "Error",
+        description: "Failed to sign out",
+        variant: "destructive"
+      });
+    }
+  };
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-gradient-secondary flex items-center justify-center">
+        <div className="text-center">
+          <div className="text-4xl mb-4">🤱</div>
+          <p className="text-muted-foreground">Loading profile...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gradient-secondary p-4 pb-24">
@@ -83,7 +163,7 @@ export const Profile = () => {
             <div className="flex flex-col items-center space-y-4">
               <div className="relative">
                 <Avatar className="w-24 h-24 border-4 border-primary/20">
-                  <AvatarImage src={profileData.profilePicture} />
+                  <AvatarImage src={profileData.profile_picture} />
                   <AvatarFallback className="bg-primary/10 text-primary text-xl">
                     {profileData.name ? getInitials(profileData.name) : <User className="w-8 h-8" />}
                   </AvatarFallback>
@@ -106,9 +186,9 @@ export const Profile = () => {
                   <h2 className="text-xl font-semibold text-foreground">
                     {profileData.name}
                   </h2>
-                  {profileData.babyName && (
+                  {profileData.baby_name && (
                     <p className="text-muted-foreground">
-                      Expecting {profileData.babyName} 💕
+                      Expecting {profileData.baby_name} 💕
                     </p>
                   )}
                 </div>
@@ -139,15 +219,33 @@ export const Profile = () => {
             </div>
             
             <div className="space-y-2">
-              <Label htmlFor="babyName" className="flex items-center gap-1">
+              <Label htmlFor="baby_name" className="flex items-center gap-1">
                 <Baby className="w-4 h-4" />
                 Baby Name (Optional)
               </Label>
               <Input
-                id="babyName"
+                id="baby_name"
                 placeholder="Have you chosen a name?"
-                value={profileData.babyName}
-                onChange={(e) => setProfileData({ ...profileData, babyName: e.target.value })}
+                value={profileData.baby_name}
+                onChange={(e) => setProfileData({ ...profileData, baby_name: e.target.value })}
+                disabled={!isEditing}
+                className={!isEditing ? "bg-muted" : ""}
+              />
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="pregnancy_week">Pregnancy Week</Label>
+              <Input
+                id="pregnancy_week"
+                type="number"
+                min="1"
+                max="42"
+                placeholder="Current week..."
+                value={profileData.pregnancy_week || ""}
+                onChange={(e) => setProfileData({ 
+                  ...profileData, 
+                  pregnancy_week: e.target.value ? parseInt(e.target.value) : null 
+                })}
                 disabled={!isEditing}
                 className={!isEditing ? "bg-muted" : ""}
               />
@@ -177,23 +275,27 @@ export const Profile = () => {
         </div>
 
         {/* Pregnancy Week Info */}
-        {(() => {
-          const savedWeek = localStorage.getItem("pregnancyWeek");
-          if (savedWeek) {
-            return (
-              <Card className="bg-gradient-primary text-primary-foreground shadow-soft border-0">
-                <CardContent className="py-4">
-                  <div className="text-center">
-                    <p className="text-sm opacity-90">Currently at</p>
-                    <p className="text-2xl font-bold">Week {savedWeek}</p>
-                    <p className="text-sm opacity-90">of your pregnancy journey</p>
-                  </div>
-                </CardContent>
-              </Card>
-            );
-          }
-          return null;
-        })()}
+        {profileData.pregnancy_week && (
+          <Card className="bg-gradient-primary text-primary-foreground shadow-soft border-0">
+            <CardContent className="py-4">
+              <div className="text-center">
+                <p className="text-sm opacity-90">Currently at</p>
+                <p className="text-2xl font-bold">Week {profileData.pregnancy_week}</p>
+                <p className="text-sm opacity-90">of your pregnancy journey</p>
+              </div>
+            </CardContent>
+          </Card>
+        )}
+
+        {/* Sign Out Button */}
+        <Button
+          onClick={handleSignOut}
+          variant="outline"
+          className="w-full"
+        >
+          <LogOut className="w-4 h-4 mr-2" />
+          Sign Out
+        </Button>
       </div>
     </div>
   );

@@ -3,6 +3,8 @@ import { ProgressRing } from "@/components/ProgressRing";
 import { getPregnancyInfo } from "@/data/pregnancyData";
 import { Calendar, Heart, Baby, Clock } from "lucide-react";
 import { useState, useEffect } from "react";
+import { useAuth } from "@/contexts/AuthContext";
+import { supabase } from "@/integrations/supabase/client";
 
 interface DashboardProps {
   currentWeek: number;
@@ -11,23 +13,37 @@ interface DashboardProps {
 export const Dashboard = ({ currentWeek }: DashboardProps) => {
   const pregnancyInfo = getPregnancyInfo(currentWeek);
   const [nextAppointment, setNextAppointment] = useState<any>(null);
+  const { user } = useAuth();
 
   useEffect(() => {
-    const savedAppointments = localStorage.getItem("pregnancyAppointments");
-    if (savedAppointments) {
-      const appointments = JSON.parse(savedAppointments);
-      const upcoming = appointments
-        .map((apt: any) => ({ ...apt, date: new Date(apt.date) }))
-        .filter((apt: any) => apt.date >= new Date())
-        .sort((a: any, b: any) => a.date.getTime() - b.date.getTime());
-      
-      if (upcoming.length > 0) {
-        setNextAppointment(upcoming[0]);
+    loadNextAppointment();
+  }, [user]);
+
+  const loadNextAppointment = async () => {
+    if (!user) return;
+
+    try {
+      const { data, error } = await supabase
+        .from('appointments')
+        .select('*')
+        .eq('user_id', user.id)
+        .gte('date', new Date().toISOString().split('T')[0])
+        .order('date', { ascending: true })
+        .order('time', { ascending: true })
+        .limit(1);
+
+      if (error) throw error;
+
+      if (data && data.length > 0) {
+        setNextAppointment(data[0]);
       }
+    } catch (error) {
+      console.error('Error loading next appointment:', error);
     }
-  }, []);
+  };
   
-  const formatDate = (date: Date) => {
+  const formatDate = (dateString: string) => {
+    const date = new Date(dateString);
     return date.toLocaleDateString('en-US', { 
       weekday: 'long', 
       year: 'numeric', 
@@ -76,6 +92,9 @@ export const Dashboard = ({ currentWeek }: DashboardProps) => {
                 </CardTitle>
               </CardHeader>
               <CardContent>
+                <p className="text-foreground font-medium mb-1">
+                  {nextAppointment.title}
+                </p>
                 <p className="text-foreground font-medium">
                   {formatDate(nextAppointment.date)}
                 </p>
@@ -95,7 +114,12 @@ export const Dashboard = ({ currentWeek }: DashboardProps) => {
             </CardHeader>
             <CardContent>
               <p className="text-foreground font-medium">
-                {formatDate(pregnancyInfo.dueDate)}
+                {pregnancyInfo.dueDate.toLocaleDateString('en-US', { 
+                  weekday: 'long', 
+                  year: 'numeric', 
+                  month: 'long', 
+                  day: 'numeric' 
+                })}
               </p>
             </CardContent>
           </Card>
