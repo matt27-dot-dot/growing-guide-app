@@ -1,7 +1,8 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ProgressRing } from "@/components/ProgressRing";
 import { getPregnancyInfo } from "@/data/pregnancyData";
-import { Calendar, Heart, Baby } from "lucide-react";
+import { Calendar, Heart, Baby, Clock } from "lucide-react";
+import { useState, useEffect } from "react";
 
 interface DashboardProps {
   currentWeek: number;
@@ -9,6 +10,22 @@ interface DashboardProps {
 
 export const Dashboard = ({ currentWeek }: DashboardProps) => {
   const pregnancyInfo = getPregnancyInfo(currentWeek);
+  const [nextAppointment, setNextAppointment] = useState<any>(null);
+
+  useEffect(() => {
+    const savedAppointments = localStorage.getItem("pregnancyAppointments");
+    if (savedAppointments) {
+      const appointments = JSON.parse(savedAppointments);
+      const upcoming = appointments
+        .map((apt: any) => ({ ...apt, date: new Date(apt.date) }))
+        .filter((apt: any) => apt.date >= new Date())
+        .sort((a: any, b: any) => a.date.getTime() - b.date.getTime());
+      
+      if (upcoming.length > 0) {
+        setNextAppointment(upcoming[0]);
+      }
+    }
+  }, []);
   
   const formatDate = (date: Date) => {
     return date.toLocaleDateString('en-US', { 
@@ -50,6 +67,25 @@ export const Dashboard = ({ currentWeek }: DashboardProps) => {
 
         {/* Info Cards */}
         <div className="grid gap-4">
+          {nextAppointment && (
+            <Card className="bg-card/80 backdrop-blur shadow-card border-0">
+              <CardHeader className="pb-3">
+                <CardTitle className="flex items-center gap-2 text-lg">
+                  <Clock className="w-5 h-5 text-accent" />
+                  Next Appointment
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-foreground font-medium">
+                  {formatDate(nextAppointment.date)}
+                </p>
+                <p className="text-sm text-muted-foreground mt-1">
+                  {nextAppointment.time} • {nextAppointment.location}
+                </p>
+              </CardContent>
+            </Card>
+          )}
+
           <Card className="bg-card/80 backdrop-blur shadow-card border-0">
             <CardHeader className="pb-3">
               <CardTitle className="flex items-center gap-2 text-lg">
