@@ -148,149 +148,157 @@ export const Appointments = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-background to-secondary/20 pb-24">
-      <div className="p-6 space-y-6">
-        <div className="text-center space-y-2">
-          <h1 className="text-3xl font-bold text-foreground">Appointments</h1>
-          <p className="text-muted-foreground">Keep track of your prenatal appointments</p>
+    <div className="min-h-screen bg-gradient-secondary p-4 sm:p-6 lg:p-8 pb-24">
+      <div className="max-w-6xl mx-auto space-y-8">
+        <div className="text-center py-8 lg:py-12">
+          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-foreground mb-4">Appointments</h1>
+          <p className="text-lg sm:text-xl text-muted-foreground">Keep track of your prenatal appointments</p>
         </div>
 
         {/* Add New Appointment */}
-        <Card className="p-6 space-y-4">
-          <div className="flex items-center gap-2 mb-4">
-            <Plus className="w-5 h-5 text-primary" />
-            <h2 className="text-xl font-semibold">Add New Appointment</h2>
-          </div>
-
-          <div className="grid gap-4">
-            <div className="space-y-2">
-              <Label htmlFor="title">Appointment Title</Label>
-              <Input
-                id="title"
-                placeholder="e.g., Routine Checkup, Ultrasound..."
-                value={title}
-                onChange={(e) => setTitle(e.target.value)}
-              />
+        <div className="flex justify-center mb-8 lg:mb-12">
+          <Card className="p-8 space-y-6 w-full max-w-2xl">
+            <div className="flex items-center gap-3 mb-6">
+              <Plus className="w-6 h-6 text-primary" />
+              <h2 className="text-2xl font-semibold">Add New Appointment</h2>
             </div>
 
-            <div className="space-y-2">
-              <Label htmlFor="date">Date</Label>
-              <Popover>
-                <PopoverTrigger asChild>
-                  <Button
-                    variant="outline"
-                    className={cn(
-                      "w-full justify-start text-left font-normal",
-                      !selectedDate && "text-muted-foreground"
-                    )}
-                  >
-                    <Calendar className="mr-2 h-4 w-4" />
-                    {selectedDate ? format(selectedDate, "PPP") : "Pick a date"}
-                  </Button>
-                </PopoverTrigger>
-                <PopoverContent className="w-auto p-0" align="start">
-                  <CalendarComponent
-                    mode="single"
-                    selected={selectedDate}
-                    onSelect={setSelectedDate}
-                    disabled={(date) => date < new Date()}
-                    initialFocus
-                    className="pointer-events-auto"
+            <div className="grid gap-6">
+              <div className="space-y-3">
+                <Label htmlFor="title" className="text-base">Appointment Title</Label>
+                <Input
+                  id="title"
+                  placeholder="e.g., Routine Checkup, Ultrasound..."
+                  value={title}
+                  onChange={(e) => setTitle(e.target.value)}
+                  className="text-base py-6"
+                />
+              </div>
+
+              <div className="space-y-3">
+                <Label htmlFor="date" className="text-base">Date</Label>
+                <Popover>
+                  <PopoverTrigger asChild>
+                    <Button
+                      variant="outline"
+                      className={cn(
+                        "w-full justify-start text-left font-normal text-base py-6",
+                        !selectedDate && "text-muted-foreground"
+                      )}
+                    >
+                      <Calendar className="mr-2 h-5 w-5" />
+                      {selectedDate ? format(selectedDate, "PPP") : "Pick a date"}
+                    </Button>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-auto p-0" align="start">
+                    <CalendarComponent
+                      mode="single"
+                      selected={selectedDate}
+                      onSelect={setSelectedDate}
+                      disabled={(date) => date < new Date()}
+                      initialFocus
+                      className="pointer-events-auto"
+                    />
+                  </PopoverContent>
+                </Popover>
+              </div>
+
+              <div className="space-y-3">
+                <Label htmlFor="time" className="text-base">Time</Label>
+                <div className="relative">
+                  <Clock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-5 h-5" />
+                  <Input
+                    id="time"
+                    type="time"
+                    value={time}
+                    onChange={(e) => setTime(e.target.value)}
+                    className="pl-12 text-base py-6"
                   />
-                </PopoverContent>
-              </Popover>
-            </div>
+                </div>
+              </div>
 
-            <div className="space-y-2">
-              <Label htmlFor="time">Time</Label>
-              <div className="relative">
-                <Clock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
-                <Input
-                  id="time"
-                  type="time"
-                  value={time}
-                  onChange={(e) => setTime(e.target.value)}
-                  className="pl-10"
+              <div className="space-y-3">
+                <Label htmlFor="location" className="text-base">Location</Label>
+                <div className="relative">
+                  <MapPin className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-5 h-5" />
+                  <Input
+                    id="location"
+                    placeholder="Doctor's office, hospital, clinic..."
+                    value={location}
+                    onChange={(e) => setLocation(e.target.value)}
+                    className="pl-12 text-base py-6"
+                  />
+                </div>
+              </div>
+
+              <div className="space-y-3">
+                <Label htmlFor="notes" className="text-base">Notes (optional)</Label>
+                <Textarea
+                  id="notes"
+                  placeholder="Any additional notes..."
+                  value={notes}
+                  onChange={(e) => setNotes(e.target.value)}
+                  rows={4}
+                  className="text-base"
                 />
               </div>
-            </div>
 
-            <div className="space-y-2">
-              <Label htmlFor="location">Location</Label>
-              <div className="relative">
-                <MapPin className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
-                <Input
-                  id="location"
-                  placeholder="Doctor's office, hospital, clinic..."
-                  value={location}
-                  onChange={(e) => setLocation(e.target.value)}
-                  className="pl-10"
-                />
-              </div>
+              <Button onClick={addAppointment} className="w-full text-lg py-6">
+                <Plus className="w-5 h-5 mr-2" />
+                Add Appointment
+              </Button>
             </div>
-
-            <div className="space-y-2">
-              <Label htmlFor="notes">Notes (optional)</Label>
-              <Textarea
-                id="notes"
-                placeholder="Any additional notes..."
-                value={notes}
-                onChange={(e) => setNotes(e.target.value)}
-                rows={3}
-              />
-            </div>
-
-            <Button onClick={addAppointment} className="w-full">
-              <Plus className="w-4 h-4 mr-2" />
-              Add Appointment
-            </Button>
-          </div>
-        </Card>
+          </Card>
+        </div>
 
         {/* Appointments List */}
-        <div className="space-y-4">
-          <h2 className="text-xl font-semibold">Upcoming Appointments</h2>
+        <div className="space-y-6">
+          <h2 className="text-2xl font-semibold text-center">Upcoming Appointments</h2>
           {appointments.length === 0 ? (
-            <Card className="p-8 text-center">
-              <Calendar className="w-12 h-12 text-muted-foreground mx-auto mb-4" />
-              <p className="text-muted-foreground">No appointments scheduled yet</p>
-              <p className="text-sm text-muted-foreground mt-1">Add your first appointment above</p>
-            </Card>
-          ) : (
-            appointments.map((appointment) => (
-              <Card key={appointment.id} className="p-4">
-                <div className="flex justify-between items-start">
-                  <div className="space-y-2">
-                    <h3 className="font-semibold text-lg">{appointment.title}</h3>
-                    <div className="flex items-center gap-2">
-                      <Calendar className="w-4 h-4 text-primary" />
-                      <span className="font-medium">
-                        {format(new Date(appointment.date), "EEEE, MMMM do, yyyy")}
-                      </span>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <Clock className="w-4 h-4 text-muted-foreground" />
-                      <span className="text-sm text-muted-foreground">{appointment.time}</span>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <MapPin className="w-4 h-4 text-muted-foreground" />
-                      <span className="text-sm text-muted-foreground">{appointment.location}</span>
-                    </div>
-                    {appointment.notes && (
-                      <p className="text-sm text-muted-foreground mt-2">{appointment.notes}</p>
-                    )}
-                  </div>
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={() => deleteAppointment(appointment.id)}
-                    className="text-destructive hover:text-destructive"
-                  >
-                    Delete
-                  </Button>
-                </div>
+            <div className="flex justify-center">
+              <Card className="p-12 text-center w-full max-w-md">
+                <Calendar className="w-16 h-16 text-muted-foreground mx-auto mb-6" />
+                <p className="text-lg text-muted-foreground">No appointments scheduled yet</p>
+                <p className="text-base text-muted-foreground mt-2">Add your first appointment above</p>
               </Card>
-            ))
+            </div>
+          ) : (
+            <div className="grid gap-6 lg:gap-8 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+              {appointments.map((appointment) => (
+                <Card key={appointment.id} className="p-6">
+                  <div className="flex justify-between items-start">
+                    <div className="space-y-3 flex-1">
+                      <h3 className="font-semibold text-xl">{appointment.title}</h3>
+                      <div className="flex items-center gap-3">
+                        <Calendar className="w-5 h-5 text-primary" />
+                        <span className="font-medium text-base">
+                          {format(new Date(appointment.date), "EEEE, MMMM do, yyyy")}
+                        </span>
+                      </div>
+                      <div className="flex items-center gap-3">
+                        <Clock className="w-5 h-5 text-muted-foreground" />
+                        <span className="text-base text-muted-foreground">{appointment.time}</span>
+                      </div>
+                      <div className="flex items-center gap-3">
+                        <MapPin className="w-5 h-5 text-muted-foreground" />
+                        <span className="text-base text-muted-foreground">{appointment.location}</span>
+                      </div>
+                      {appointment.notes && (
+                        <p className="text-base text-muted-foreground mt-3">{appointment.notes}</p>
+                      )}
+                    </div>
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={() => deleteAppointment(appointment.id)}
+                      className="text-destructive hover:text-destructive ml-4"
+                    >
+                      Delete
+                    </Button>
+                  </div>
+                </Card>
+              ))}
+            </div>
           )}
         </div>
       </div>

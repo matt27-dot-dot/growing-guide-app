@@ -94,83 +94,89 @@ export const Checklist = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-secondary p-4 pb-24">
-      <div className="max-w-md mx-auto space-y-6">
+    <div className="min-h-screen bg-gradient-secondary p-4 sm:p-6 lg:p-8 pb-24">
+      <div className="max-w-4xl mx-auto space-y-8">
         {/* Header */}
-        <div className="text-center py-6">
-          <h1 className="text-3xl font-bold text-foreground mb-2">
+        <div className="text-center py-8 lg:py-12">
+          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-foreground mb-4">
             Baby Checklist
           </h1>
-          <p className="text-muted-foreground">
+          <p className="text-lg sm:text-xl text-muted-foreground">
             {completedCount} of {totalCount} items completed
           </p>
         </div>
 
         {/* Progress Card */}
-        <Card className="bg-card/80 backdrop-blur shadow-card border-0">
-          <CardContent className="py-6">
-            <div className="flex items-center justify-between mb-3">
-              <span className="text-sm font-medium text-foreground">Progress</span>
-              <span className="text-sm text-muted-foreground">
-                {Math.round(progressPercentage)}%
-              </span>
-            </div>
-            <div className="w-full bg-border rounded-full h-3">
-              <div 
-                className="bg-gradient-primary h-3 rounded-full transition-all duration-500 ease-out"
-                style={{ width: `${progressPercentage}%` }}
-              />
-            </div>
-            {completedCount === totalCount && totalCount > 0 && (
-              <div className="flex items-center gap-2 mt-3 text-success">
-                <CheckCircle2 className="w-4 h-4" />
-                <span className="text-sm font-medium">All items completed! 🎉</span>
+        <div className="flex justify-center mb-8 lg:mb-12">
+          <Card className="bg-card/80 backdrop-blur shadow-card border-0 w-full max-w-2xl">
+            <CardContent className="py-8">
+              <div className="flex items-center justify-between mb-4">
+                <span className="text-lg font-medium text-foreground">Progress</span>
+                <span className="text-lg text-muted-foreground">
+                  {Math.round(progressPercentage)}%
+                </span>
               </div>
-            )}
-          </CardContent>
-        </Card>
+              <div className="w-full bg-border rounded-full h-4">
+                <div 
+                  className="bg-gradient-primary h-4 rounded-full transition-all duration-500 ease-out"
+                  style={{ width: `${progressPercentage}%` }}
+                />
+              </div>
+              {completedCount === totalCount && totalCount > 0 && (
+                <div className="flex items-center gap-2 mt-4 text-success">
+                  <CheckCircle2 className="w-5 h-5" />
+                  <span className="text-base font-medium">All items completed! 🎉</span>
+                </div>
+              )}
+            </CardContent>
+          </Card>
+        </div>
 
         {/* Add Custom Item */}
-        <Card className="bg-card/80 backdrop-blur shadow-card border-0">
-          <CardHeader className="pb-3">
-            <CardTitle className="text-lg">Add Custom Item</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="flex gap-2">
-              <Input
-                placeholder="Enter item name..."
-                value={newItem}
-                onChange={(e) => setNewItem(e.target.value)}
-                onKeyPress={handleKeyPress}
-                className="flex-1"
-              />
-              <Button 
-                onClick={addCustomItem}
-                size="icon"
-                className="bg-primary hover:bg-primary/90 shadow-soft"
-              >
-                <Plus className="w-4 h-4" />
-              </Button>
-            </div>
-          </CardContent>
-        </Card>
+        <div className="flex justify-center mb-8">
+          <Card className="bg-card/80 backdrop-blur shadow-card border-0 w-full max-w-2xl">
+            <CardHeader className="pb-4">
+              <CardTitle className="text-xl">Add Custom Item</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="flex gap-3">
+                <Input
+                  placeholder="Enter item name..."
+                  value={newItem}
+                  onChange={(e) => setNewItem(e.target.value)}
+                  onKeyPress={handleKeyPress}
+                  className="flex-1 text-base py-6"
+                />
+                <Button 
+                  onClick={addCustomItem}
+                  size="icon"
+                  className="bg-primary hover:bg-primary/90 shadow-soft h-14 w-14"
+                >
+                  <Plus className="w-5 h-5" />
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
 
         {/* Categorized Items */}
-        {categoryOrder.map((category) => {
-          const categoryItems = itemsByCategory[category];
-          if (!categoryItems || categoryItems.length === 0) return null;
-          
-          return (
-            <CategorySection
-              key={category}
-              title={category}
-              items={categoryItems}
-              onToggleItem={toggleItem}
-              onRemoveItem={removeCustomItem}
-              defaultOpen={category !== "Custom Items"}
-            />
-          );
-        })}
+        <div className="grid gap-8 lg:gap-12 grid-cols-1 md:grid-cols-2">
+          {categoryOrder.map((category) => {
+            const categoryItems = itemsByCategory[category];
+            if (!categoryItems || categoryItems.length === 0) return null;
+            
+            return (
+              <CategorySection
+                key={category}
+                title={category}
+                items={categoryItems}
+                onToggleItem={toggleItem}
+                onRemoveItem={removeCustomItem}
+                defaultOpen={category !== "Custom Items"}
+              />
+            );
+          })}
+        </div>
       </div>
     </div>
   );

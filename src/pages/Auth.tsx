@@ -79,20 +79,20 @@ export const Auth = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-secondary flex items-center justify-center p-4">
-      <Card className="w-full max-w-md">
-        <CardHeader className="text-center">
-          <div className="text-4xl mb-4">🤱</div>
-          <CardTitle>{isLogin ? 'Welcome Back' : 'Create Account'}</CardTitle>
-          <CardDescription>
+    <div className="min-h-screen bg-gradient-secondary flex items-center justify-center p-4 sm:p-6 lg:p-8">
+      <Card className="w-full max-w-lg">
+        <CardHeader className="text-center py-8">
+          <div className="text-6xl mb-6">🤱</div>
+          <CardTitle className="text-3xl">{isLogin ? 'Welcome Back' : 'Create Account'}</CardTitle>
+          <CardDescription className="text-lg mt-2">
             {isLogin ? 'Sign in to your pregnancy tracker' : 'Join us to track your pregnancy journey'}
           </CardDescription>
         </CardHeader>
-        <CardContent className="space-y-4">
-          <form onSubmit={handleSubmit} className="space-y-4">
+        <CardContent className="space-y-6 px-8 pb-8">
+          <form onSubmit={handleSubmit} className="space-y-6">
             {!isLogin && (
-              <div className="space-y-2">
-                <Label htmlFor="name">Name</Label>
+              <div className="space-y-3">
+                <Label htmlFor="name" className="text-base">Name</Label>
                 <Input
                   id="name"
                   type="text"
@@ -100,12 +100,13 @@ export const Auth = () => {
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   required={!isLogin}
+                  className="text-base py-6"
                 />
               </div>
             )}
             
-            <div className="space-y-2">
-              <Label htmlFor="email">Email</Label>
+            <div className="space-y-3">
+              <Label htmlFor="email" className="text-base">Email</Label>
               <Input
                 id="email"
                 type="email"
@@ -113,11 +114,12 @@ export const Auth = () => {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
+                className="text-base py-6"
               />
             </div>
             
-            <div className="space-y-2">
-              <Label htmlFor="password">Password</Label>
+            <div className="space-y-3">
+              <Label htmlFor="password" className="text-base">Password</Label>
               <Input
                 id="password"
                 type="password"
@@ -125,34 +127,35 @@ export const Auth = () => {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
+                className="text-base py-6"
               />
             </div>
             
-            <Button type="submit" className="w-full" disabled={loading}>
+            <Button type="submit" className="w-full text-lg py-6" disabled={loading}>
               {loading ? 'Loading...' : (isLogin ? 'Sign In' : 'Sign Up')}
             </Button>
           </form>
 
           <Separator />
 
-          <div className="space-y-2">
+          <div className="space-y-3">
             <Button
               variant="outline"
-              className="w-full"
+              className="w-full text-base py-6"
               onClick={() => handleSocialLogin('google')}
             >
               Continue with Google
             </Button>
             <Button
               variant="outline"
-              className="w-full"
+              className="w-full text-base py-6"
               onClick={() => handleSocialLogin('github')}
             >
               Continue with GitHub
             </Button>
             <Button
               variant="outline"
-              className="w-full"
+              className="w-full text-base py-6"
               onClick={() => handleSocialLogin('twitter')}
             >
               Continue with Twitter
@@ -163,7 +166,7 @@ export const Auth = () => {
             <Button
               variant="link"
               onClick={() => setIsLogin(!isLogin)}
-              className="text-sm"
+              className="text-base"
             >
               {isLogin ? "Don't have an account? Sign up" : "Already have an account? Sign in"}
             </Button>
