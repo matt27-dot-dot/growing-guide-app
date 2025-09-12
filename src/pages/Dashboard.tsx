@@ -53,36 +53,38 @@ export const Dashboard = ({ currentWeek }: DashboardProps) => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-secondary p-4 pb-24">
-      <div className="max-w-md mx-auto space-y-6">
+    <div className="min-h-screen bg-gradient-secondary p-4 sm:p-6 lg:p-8 pb-24">
+      <div className="max-w-7xl mx-auto">
         {/* Header */}
-        <div className="text-center py-6">
-          <h1 className="text-3xl font-bold text-foreground mb-2">
+        <div className="text-center py-8 lg:py-12">
+          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-foreground mb-4">
             Your Journey
           </h1>
-          <p className="text-muted-foreground">
+          <p className="text-lg sm:text-xl text-muted-foreground">
             Week {currentWeek} of 40
           </p>
         </div>
 
         {/* Progress Ring */}
-        <Card className="bg-card/80 backdrop-blur shadow-card border-0">
-          <CardContent className="flex flex-col items-center py-8">
-            <ProgressRing progress={pregnancyInfo.progress} size={140}>
-              <div className="text-center">
-                <div className="text-2xl font-bold text-primary">
-                  {pregnancyInfo.weeksRemaining}
+        <div className="flex justify-center mb-8 lg:mb-12">
+          <Card className="bg-card/80 backdrop-blur shadow-card border-0 w-full max-w-sm">
+            <CardContent className="flex flex-col items-center py-12">
+              <ProgressRing progress={pregnancyInfo.progress} size={160}>
+                <div className="text-center">
+                  <div className="text-3xl font-bold text-primary">
+                    {pregnancyInfo.weeksRemaining}
+                  </div>
+                  <div className="text-base text-muted-foreground">
+                    weeks left
+                  </div>
                 </div>
-                <div className="text-sm text-muted-foreground">
-                  weeks left
-                </div>
-              </div>
-            </ProgressRing>
-          </CardContent>
-        </Card>
+              </ProgressRing>
+            </CardContent>
+          </Card>
+        </div>
 
         {/* Info Cards */}
-        <div className="grid gap-4">
+        <div className="grid gap-6 lg:gap-8 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {nextAppointment && (
             <Card className="bg-card/80 backdrop-blur shadow-card border-0">
               <CardHeader className="pb-3">

@@ -21,28 +21,28 @@ export const WeekSelector = ({ isOpen, onWeekSelect }: WeekSelectorProps) => {
 
   return (
     <Dialog open={isOpen} onOpenChange={() => {}}>
-      <DialogContent className="max-w-md bg-gradient-hero border-0 shadow-soft">
+      <DialogContent className="max-w-2xl bg-gradient-hero border-0 shadow-soft">
         <DialogHeader className="text-center">
-          <DialogTitle className="text-2xl font-bold text-foreground mb-2">
+          <DialogTitle className="text-3xl sm:text-4xl font-bold text-foreground mb-4">
             Welcome to Your Pregnancy Journey! 🤱
           </DialogTitle>
-          <p className="text-muted-foreground">
+          <p className="text-lg sm:text-xl text-muted-foreground">
             How many weeks along are you?
           </p>
         </DialogHeader>
         
-        <div className="grid grid-cols-5 gap-2 max-h-64 overflow-y-auto p-2">
+        <div className="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 gap-3 max-h-80 overflow-y-auto p-4">
           {weeks.map((week) => (
             <Card
               key={week}
-              className={`p-3 text-center cursor-pointer transition-all duration-200 hover:shadow-card ${
+              className={`p-4 text-center cursor-pointer transition-all duration-200 hover:shadow-card ${
                 selectedWeek === week
                   ? "bg-primary text-primary-foreground shadow-soft scale-105"
                   : "bg-card hover:bg-secondary/50"
               }`}
               onClick={() => setSelectedWeek(week)}
             >
-              <span className="font-medium">{week}</span>
+              <span className="text-lg font-medium">{week}</span>
             </Card>
           ))}
         </div>
@@ -50,7 +50,7 @@ export const WeekSelector = ({ isOpen, onWeekSelect }: WeekSelectorProps) => {
         <Button
           onClick={handleConfirm}
           disabled={selectedWeek === null}
-          className="w-full bg-gradient-primary border-0 shadow-soft hover:shadow-card transition-all duration-200"
+          className="w-full bg-gradient-primary border-0 shadow-soft hover:shadow-card transition-all duration-200 text-lg py-6"
         >
           Start Tracking
         </Button>
