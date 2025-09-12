@@ -52,6 +52,8 @@ const Index = () => {
         .upsert({
           user_id: user.id,
           pregnancy_week: weeks,
+        }, {
+          onConflict: 'user_id'
         });
 
       if (error) throw error;
