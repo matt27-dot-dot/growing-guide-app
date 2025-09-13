@@ -6,6 +6,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 import { Checklist } from "./pages/Checklist";
+import { Knowledge } from "./pages/Knowledge";
 import { Profile } from "./pages/Profile";
 import { Appointments } from "./pages/Appointments";
 import { Auth } from "./pages/Auth";
@@ -32,6 +33,11 @@ const App = () => (
             <Route path="/checklist" element={
               <ProtectedRoute>
                 <Checklist />
+              </ProtectedRoute>
+            } />
+            <Route path="/knowledge" element={
+              <ProtectedRoute>
+                <Knowledge />
               </ProtectedRoute>
             } />
             <Route path="/profile" element={

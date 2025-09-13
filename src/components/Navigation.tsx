@@ -1,5 +1,5 @@
 import { NavLink } from "react-router-dom";
-import { Home, CheckSquare, User, Calendar } from "lucide-react";
+import { Home, CheckSquare, User, Calendar, BookOpen } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { useAuth } from "@/contexts/AuthContext";
 
@@ -12,6 +12,7 @@ export const Navigation = () => {
   const navItems = [
     { to: "/", icon: Home, label: "Dashboard" },
     { to: "/checklist", icon: CheckSquare, label: "Checklist" },
+    { to: "/knowledge", icon: BookOpen, label: "Knowledge" },
     { to: "/appointments", icon: Calendar, label: "Appointments" },
     { to: "/profile", icon: User, label: "Profile" },
   ];
