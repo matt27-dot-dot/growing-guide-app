@@ -1,8 +1,14 @@
 import { NavLink } from "react-router-dom";
 import { Home, CheckSquare, User, Calendar } from "lucide-react";
 import { Card } from "@/components/ui/card";
+import { useAuth } from "@/contexts/AuthContext";
 
 export const Navigation = () => {
+  const { user } = useAuth();
+  
+  // Don't render navigation if user is not authenticated
+  if (!user) return null;
+
   const navItems = [
     { to: "/", icon: Home, label: "Dashboard" },
     { to: "/checklist", icon: CheckSquare, label: "Checklist" },
@@ -11,7 +17,7 @@ export const Navigation = () => {
   ];
 
   return (
-    <Card className="fixed bottom-4 left-1/2 transform -translate-x-1/2 bg-card/95 backdrop-blur shadow-soft border-0 z-50">
+    <Card className="fixed top-4 left-1/2 transform -translate-x-1/2 bg-card/95 backdrop-blur shadow-soft border-0 z-50">
       <nav className="flex gap-1 p-2">
         {navItems.map(({ to, icon: Icon, label }) => (
           <NavLink
