@@ -83,6 +83,54 @@ export type Database = {
         }
         Relationships: []
       }
+      pregnancy_weeks: {
+        Row: {
+          baby_size_comparison: string | null
+          baby_size_inches: number | null
+          baby_weight_ounces: number | null
+          created_at: string
+          development_highlights: string[] | null
+          id: string
+          next_week_preview: string | null
+          organ_development: string | null
+          symptoms: string[] | null
+          tips: string[] | null
+          trimester: number | null
+          updated_at: string
+          week_number: number
+        }
+        Insert: {
+          baby_size_comparison?: string | null
+          baby_size_inches?: number | null
+          baby_weight_ounces?: number | null
+          created_at?: string
+          development_highlights?: string[] | null
+          id?: string
+          next_week_preview?: string | null
+          organ_development?: string | null
+          symptoms?: string[] | null
+          tips?: string[] | null
+          trimester?: number | null
+          updated_at?: string
+          week_number: number
+        }
+        Update: {
+          baby_size_comparison?: string | null
+          baby_size_inches?: number | null
+          baby_weight_ounces?: number | null
+          created_at?: string
+          development_highlights?: string[] | null
+          id?: string
+          next_week_preview?: string | null
+          organ_development?: string | null
+          symptoms?: string[] | null
+          tips?: string[] | null
+          trimester?: number | null
+          updated_at?: string
+          week_number?: number
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           baby_name: string | null

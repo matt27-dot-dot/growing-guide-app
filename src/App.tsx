@@ -7,6 +7,7 @@ import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 import { Checklist } from "./pages/Checklist";
 import { Knowledge } from "./pages/Knowledge";
+import { YourBaby } from "./pages/YourBaby";
 import { Profile } from "./pages/Profile";
 import { Appointments } from "./pages/Appointments";
 import { Auth } from "./pages/Auth";
@@ -33,6 +34,11 @@ const App = () => (
             <Route path="/checklist" element={
               <ProtectedRoute>
                 <Checklist />
+              </ProtectedRoute>
+            } />
+            <Route path="/your-baby" element={
+              <ProtectedRoute>
+                <YourBaby />
               </ProtectedRoute>
             } />
             <Route path="/knowledge" element={
