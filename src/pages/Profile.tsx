@@ -80,6 +80,8 @@ export const Profile = () => {
           baby_name: profileData.baby_name,
           profile_picture: profileData.profile_picture,
           pregnancy_week: profileData.pregnancy_week,
+        }, {
+          onConflict: 'user_id'
         });
 
       if (error) throw error;
