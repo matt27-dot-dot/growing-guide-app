@@ -145,12 +145,12 @@ export const Dashboard = ({ currentWeek }: DashboardProps) => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 flex">
+    <div className="min-h-screen bg-gray-50 md:mr-64">
       {/* Main Content Area */}
-      <div className="flex-1 mr-64">
+      <div className="flex-1">
         {/* Top Bar */}
-        <div className="bg-white border-b border-gray-200 px-6 py-4 flex items-center justify-between">
-          <div className="flex-1 max-w-md">
+        <div className="bg-white border-b border-gray-200 px-4 md:px-6 py-4 flex items-center justify-between">
+          <div className="flex-1 max-w-md hidden md:block">
             <div className="relative">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
               <Input 
@@ -159,10 +159,12 @@ export const Dashboard = ({ currentWeek }: DashboardProps) => {
               />
             </div>
           </div>
-          <div className="flex items-center gap-4">
-            <User className="w-5 h-5 text-gray-600" />
-            <Bell className="w-5 h-5 text-gray-600" />
-            <HelpCircle className="w-5 h-5 text-gray-600" />
+          <div className="flex items-center gap-2 md:gap-4">
+            <div className="hidden md:flex items-center gap-4">
+              <User className="w-5 h-5 text-gray-600" />
+              <Bell className="w-5 h-5 text-gray-600" />
+              <HelpCircle className="w-5 h-5 text-gray-600" />
+            </div>
             <Badge 
               className="bg-blue-600 text-white px-3 py-1 cursor-pointer hover:bg-blue-700 transition-colors"
               onClick={() => navigate('/pricing')}
@@ -173,7 +175,7 @@ export const Dashboard = ({ currentWeek }: DashboardProps) => {
         </div>
 
         {/* Main Content */}
-        <div className="p-6 space-y-8">
+        <div className="p-4 md:p-6 space-y-8">
           {/* Welcome Message */}
           <div className="bg-white rounded-lg shadow-sm border-0 p-6">
             <h1 className="text-3xl font-bold text-gray-900 mb-2">
@@ -187,7 +189,7 @@ export const Dashboard = ({ currentWeek }: DashboardProps) => {
           {/* Progress Section */}
           <div>
             <h2 className="text-2xl font-bold text-gray-900 mb-6">Your Progress</h2>
-            <div className="flex justify-center gap-6">
+            <div className="flex flex-col md:flex-row justify-center gap-6">
               {/* Weeks Remaining */}
               <Card className="bg-white shadow-sm border-0 w-full max-w-sm transition-transform duration-300 hover:scale-105">
                 <CardContent className="flex flex-col items-center py-12">

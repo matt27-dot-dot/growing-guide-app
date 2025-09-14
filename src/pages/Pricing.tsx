@@ -139,7 +139,7 @@ export const Pricing = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 mr-64 p-6">
+    <div className="min-h-screen bg-gray-50 md:mr-64 p-4 md:p-6">
       <div className="max-w-6xl mx-auto">
         {/* Header */}
         <div className="text-center py-8 lg:py-12">

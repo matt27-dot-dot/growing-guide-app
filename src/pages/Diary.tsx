@@ -293,7 +293,7 @@ export const Diary = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-50 mr-64 p-6 flex items-center justify-center">
+      <div className="min-h-screen bg-gray-50 md:mr-64 p-6 flex items-center justify-center">
         <div className="text-center">
           <div className="text-4xl mb-4">📖</div>
           <p className="text-muted-foreground">Loading your diary...</p>
@@ -303,7 +303,7 @@ export const Diary = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 mr-64 p-6">
+    <div className="min-h-screen bg-gray-50 md:mr-64 p-4 md:p-6">
       <div className="max-w-4xl mx-auto">
         {/* Header */}
         <div className="text-center py-8 lg:py-12">

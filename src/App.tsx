@@ -14,6 +14,7 @@ import { Auth } from "./pages/Auth";
 import { Pricing } from "./pages/Pricing";
 import { Diary } from "./pages/Diary";
 import { RightSidebar } from "./components/RightSidebar";
+import { MobileMenu } from "./components/MobileMenu";
 import { AuthProvider } from "./contexts/AuthContext";
 import { ProtectedRoute } from "./components/ProtectedRoute";
 
@@ -72,6 +73,7 @@ const App = () => (
             <Route path="*" element={<NotFound />} />
           </Routes>
           <RightSidebar />
+          <MobileMenu />
         </BrowserRouter>
       </TooltipProvider>
     </AuthProvider>

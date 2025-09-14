@@ -24,7 +24,7 @@ export const RightSidebar = () => {
   };
 
   return (
-    <div className="fixed right-0 top-0 h-full w-64 bg-gradient-to-b from-primary to-primary/90 text-primary-foreground z-40">
+    <div className="hidden md:flex fixed right-0 top-0 h-full w-64 bg-gradient-to-b from-primary to-primary/90 text-primary-foreground z-40">
       <div className="flex flex-col h-full">
         {/* Logo/Title */}
         <div className="p-6 border-b border-primary-foreground/20">
