@@ -131,6 +131,39 @@ export type Database = {
         }
         Relationships: []
       }
+      checklist_items: {
+        Row: {
+          id: string
+          user_id: string
+          text: string
+          completed: boolean
+          is_custom: boolean
+          category: string | null
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          user_id: string
+          text: string
+          completed?: boolean
+          is_custom?: boolean
+          category?: string | null
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          user_id?: string
+          text?: string
+          completed?: boolean
+          is_custom?: boolean
+          category?: string | null
+          created_at?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           baby_name: string | null

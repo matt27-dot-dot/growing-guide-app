@@ -11,7 +11,8 @@ import { YourBaby } from "./pages/YourBaby";
 import { Profile } from "./pages/Profile";
 import { Appointments } from "./pages/Appointments";
 import { Auth } from "./pages/Auth";
-import { Navigation } from "./components/Navigation";
+import { Pricing } from "./pages/Pricing";
+import { RightSidebar } from "./components/RightSidebar";
 import { AuthProvider } from "./contexts/AuthContext";
 import { ProtectedRoute } from "./components/ProtectedRoute";
 
@@ -56,10 +57,15 @@ const App = () => (
                 <Appointments />
               </ProtectedRoute>
             } />
+            <Route path="/pricing" element={
+              <ProtectedRoute>
+                <Pricing />
+              </ProtectedRoute>
+            } />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
-          <Navigation />
+          <RightSidebar />
         </BrowserRouter>
       </TooltipProvider>
     </AuthProvider>
