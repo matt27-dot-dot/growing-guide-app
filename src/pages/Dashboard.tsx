@@ -13,11 +13,32 @@ interface DashboardProps {
 export const Dashboard = ({ currentWeek }: DashboardProps) => {
   const pregnancyInfo = getPregnancyInfo(currentWeek);
   const [nextAppointment, setNextAppointment] = useState<any>(null);
+  const [currentMessageIndex, setCurrentMessageIndex] = useState(0);
   const { user } = useAuth();
+
+  const positiveMessages = [
+    "Take care of yourself and enjoy this special time. Your baby is growing strong! 💕",
+    "You're creating life and doing something truly incredible. Keep going! ✨",
+    "Every day brings you closer to meeting your little one. You've got this! 🌟",
+    "Your body is doing something amazing right now. Trust the process! 💪",
+    "You're already being the best parent by taking such good care of yourself! 🥰",
+    "This journey is unique and beautiful. Embrace every moment! 🦋",
+    "Your strength and love are already nurturing your baby. Amazing! 💖"
+  ];
 
   useEffect(() => {
     loadNextAppointment();
   }, [user]);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentMessageIndex((prevIndex) => 
+        (prevIndex + 1) % positiveMessages.length
+      );
+    }, 4000); // Change message every 4 seconds
+
+    return () => clearInterval(interval);
+  }, [positiveMessages.length]);
 
   const loadNextAppointment = async () => {
     if (!user) return;
@@ -148,8 +169,8 @@ export const Dashboard = ({ currentWeek }: DashboardProps) => {
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <p className="leading-relaxed opacity-90">
-                Take care of yourself and enjoy this special time. Your baby is growing strong! 💕
+              <p className="leading-relaxed opacity-90 transition-all duration-500 animate-fade-in">
+                {positiveMessages[currentMessageIndex]}
               </p>
             </CardContent>
           </Card>
