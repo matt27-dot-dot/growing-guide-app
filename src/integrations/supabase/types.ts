@@ -164,6 +164,42 @@ export type Database = {
         }
         Relationships: []
       }
+      diary_entries: {
+        Row: {
+          id: string
+          user_id: string
+          title: string
+          content: string
+          images: string[] | null
+          mood: string | null
+          pregnancy_week: number | null
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          user_id: string
+          title: string
+          content: string
+          images?: string[] | null
+          mood?: string | null
+          pregnancy_week?: number | null
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          user_id?: string
+          title?: string
+          content?: string
+          images?: string[] | null
+          mood?: string | null
+          pregnancy_week?: number | null
+          created_at?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           baby_name: string | null

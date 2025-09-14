@@ -12,6 +12,7 @@ import { Profile } from "./pages/Profile";
 import { Appointments } from "./pages/Appointments";
 import { Auth } from "./pages/Auth";
 import { Pricing } from "./pages/Pricing";
+import { Diary } from "./pages/Diary";
 import { RightSidebar } from "./components/RightSidebar";
 import { AuthProvider } from "./contexts/AuthContext";
 import { ProtectedRoute } from "./components/ProtectedRoute";
@@ -60,6 +61,11 @@ const App = () => (
             <Route path="/pricing" element={
               <ProtectedRoute>
                 <Pricing />
+              </ProtectedRoute>
+            } />
+            <Route path="/diary" element={
+              <ProtectedRoute>
+                <Diary />
               </ProtectedRoute>
             } />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
