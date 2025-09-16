@@ -1,7 +1,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ProgressRing } from "@/components/ProgressRing";
 import { getPregnancyInfo } from "@/data/pregnancyData";
-import { Calendar, Heart, Baby, Clock, Search, Bell, HelpCircle, User, Eye, ArrowRight, CheckCircle2 } from "lucide-react";
+import { Calendar, Heart, Baby, Clock, Search, Bell, HelpCircle, User, Eye, ArrowRight, CheckCircle2, Scale } from "lucide-react";
 import { useState, useEffect } from "react";
 import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
@@ -19,6 +19,8 @@ export const Dashboard = ({ currentWeek }: DashboardProps) => {
   const [currentMessageIndex, setCurrentMessageIndex] = useState(0);
   const [userName, setUserName] = useState<string>("");
   const [checklistStats, setChecklistStats] = useState({ completed: 0, total: 0 });
+  const [currentWeight, setCurrentWeight] = useState<number | null>(null);
+  const [prePregnancyWeight, setPrePregnancyWeight] = useState<number | null>(null);
   const { user } = useAuth();
   const navigate = useNavigate();
 
@@ -36,6 +38,7 @@ export const Dashboard = ({ currentWeek }: DashboardProps) => {
     loadNextAppointment();
     loadUserName();
     loadChecklistStats();
+    loadWeightData();
   }, [user]);
 
   useEffect(() => {
@@ -109,6 +112,37 @@ export const Dashboard = ({ currentWeek }: DashboardProps) => {
       }
     } catch (error) {
       console.error('Error loading checklist stats:', error);
+    }
+  };
+
+  const loadWeightData = async () => {
+    if (!user) return;
+
+    try {
+      // Load pre-pregnancy weight from profiles
+      const { data: profileData, error: profileError } = await supabase
+        .from('profiles')
+        .select('pre_pregnancy_weight')
+        .eq('user_id', user.id)
+        .single();
+
+      if (profileData && profileData.pre_pregnancy_weight) {
+        setPrePregnancyWeight(profileData.pre_pregnancy_weight);
+      }
+
+      // Load latest weight entry
+      const { data: weightData, error: weightError } = await supabase
+        .from('health_entries')
+        .select('weight')
+        .eq('user_id', user.id)
+        .order('date', { ascending: false })
+        .limit(1);
+
+      if (weightData && weightData.length > 0) {
+        setCurrentWeight(weightData[0].weight);
+      }
+    } catch (error) {
+      console.error('Error loading weight data:', error);
     }
   };
 
@@ -315,6 +349,38 @@ export const Dashboard = ({ currentWeek }: DashboardProps) => {
                 <p className="text-foreground leading-relaxed">
                   {pregnancyInfo.milestone}
                 </p>
+              </CardContent>
+            </Card>
+
+            {/* Current Weight */}
+            <Card 
+              className="bg-white shadow-sm border-0 transition-transform duration-300 hover:scale-105 cursor-pointer"
+              onClick={() => navigate('/you')}
+            >
+              <CardHeader className="pb-3">
+                <CardTitle className="flex items-center gap-2 text-lg">
+                  <Scale className="w-5 h-5 text-accent" />
+                  Current Weight
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                {currentWeight ? (
+                  <div>
+                    <p className="text-foreground font-medium text-xl mb-1">
+                      {currentWeight} kg
+                    </p>
+                    {prePregnancyWeight && (
+                      <p className="text-sm text-muted-foreground">
+                        {currentWeight - prePregnancyWeight > 0 ? '+' : ''}
+                        {(currentWeight - prePregnancyWeight).toFixed(1)} kg gained
+                      </p>
+                    )}
+                  </div>
+                ) : (
+                  <p className="text-muted-foreground">
+                    No weight recorded yet
+                  </p>
+                )}
               </CardContent>
             </Card>
 

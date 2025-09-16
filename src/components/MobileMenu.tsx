@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { NavLink } from "react-router-dom";
-import { Home, CheckSquare, User, Calendar, BookOpen, Baby, LogOut, Plus, BookOpen as DiaryIcon, Menu, X, Activity } from "lucide-react";
+import { Home, CheckSquare, User, Calendar, BookOpen, Baby, LogOut, Plus, BookOpen as DiaryIcon, Menu, X, Activity, HelpCircle } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 import { useTheme } from "@/contexts/ThemeContext";
 import { Button } from "@/components/ui/button";
@@ -30,7 +30,7 @@ export const MobileMenu = () => {
     { to: "/your-baby", icon: Baby, label: "Your Baby" },
     { to: "/diary", icon: DiaryIcon, label: "Diary" },
     { to: "/you", icon: Activity, label: "You" },
-    { to: "/knowledge", icon: BookOpen, label: "Knowledge" },
+    { to: "/knowledge", icon: HelpCircle, label: "Knowledge" },
     { to: "/appointments", icon: Calendar, label: "Appointments" },
     { to: "/profile", icon: User, label: "Profile" },
   ];
