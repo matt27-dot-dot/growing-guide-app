@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
-import { Plus, CheckCircle2 } from "lucide-react";
+import { Plus, CheckCircle2, CheckSquare } from "lucide-react";
 import { CategorySection } from "@/components/CategorySection";
 import { babyEssentialsByCategory } from "@/data/pregnancyData";
 import { supabase } from "@/integrations/supabase/client";
@@ -276,14 +276,19 @@ export const Checklist = () => {
   return (
     <div className="min-h-screen bg-gray-50 md:mr-64 p-4 md:p-6">
       <div className="max-w-4xl mx-auto space-y-8">
-        {/* Header */}
-        <div className="text-center py-8 lg:py-12">
-          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-foreground mb-4">
-            Baby Checklist
-          </h1>
-          <p className="text-lg sm:text-xl text-muted-foreground">
-            {completedCount} of {totalCount} items completed
-          </p>
+        {/* Page Title */}
+        <div className="bg-gradient-to-r from-pink-50 to-rose-50 border border-pink-200 rounded-xl p-6 md:p-8 shadow-sm">
+          <div className="text-center">
+            <div className="flex items-center justify-center gap-3 mb-4">
+              <CheckSquare className="w-8 h-8 text-pink-600" />
+              <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900">
+                Baby Checklist
+              </h1>
+            </div>
+            <p className="text-lg md:text-xl text-gray-600 max-w-2xl mx-auto">
+              {completedCount} of {totalCount} items completed
+            </p>
+          </div>
         </div>
 
         {/* Progress Card */}

@@ -150,9 +150,19 @@ export const Appointments = () => {
   return (
     <div className="min-h-screen bg-gray-50 mr-64 p-6">
       <div className="max-w-6xl mx-auto space-y-8">
-        <div className="text-center py-8 lg:py-12">
-          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-foreground mb-4">Appointments</h1>
-          <p className="text-lg sm:text-xl text-muted-foreground">Keep track of your prenatal appointments</p>
+        {/* Page Title */}
+        <div className="bg-gradient-to-r from-pink-50 to-rose-50 border border-pink-200 rounded-xl p-6 md:p-8 shadow-sm mb-8">
+          <div className="text-center">
+            <div className="flex items-center justify-center gap-3 mb-4">
+              <Calendar className="w-8 h-8 text-pink-600" />
+              <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900">
+                Appointments
+              </h1>
+            </div>
+            <p className="text-lg md:text-xl text-gray-600 max-w-2xl mx-auto">
+              Keep track of your prenatal appointments
+            </p>
+          </div>
         </div>
 
         {/* Add New Appointment */}

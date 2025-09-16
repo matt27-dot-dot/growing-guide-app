@@ -4,10 +4,23 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Camera, User, Baby, Save, LogOut } from "lucide-react";
+import { Switch } from "@/components/ui/switch";
+import { Camera, User, Baby, Save, LogOut, Palette, Moon, Sun } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/contexts/AuthContext";
+import { useTheme } from "@/contexts/ThemeContext";
 import { supabase } from "@/integrations/supabase/client";
+
+const sidebarColors = [
+  { value: 'purple', label: 'Purple', preview: 'bg-gradient-to-r from-purple-600 to-pink-600' },
+  { value: 'blue', label: 'Blue', preview: 'bg-gradient-to-r from-blue-600 to-cyan-600' },
+  { value: 'green', label: 'Green', preview: 'bg-gradient-to-r from-green-600 to-emerald-600' },
+  { value: 'orange', label: 'Orange', preview: 'bg-gradient-to-r from-orange-600 to-red-600' },
+  { value: 'pink', label: 'Pink', preview: 'bg-gradient-to-r from-pink-600 to-rose-600' },
+  { value: 'indigo', label: 'Indigo', preview: 'bg-gradient-to-r from-indigo-600 to-purple-600' },
+  { value: 'teal', label: 'Teal', preview: 'bg-gradient-to-r from-teal-600 to-blue-600' },
+  { value: 'emerald', label: 'Emerald', preview: 'bg-gradient-to-r from-emerald-600 to-green-600' },
+];
 
 interface ProfileData {
   name: string;
@@ -27,6 +40,7 @@ export const Profile = () => {
   const [loading, setLoading] = useState(true);
   const { toast } = useToast();
   const { user, signOut } = useAuth();
+  const { isDarkMode, sidebarColor, toggleDarkMode, setSidebarColor } = useTheme();
 
   useEffect(() => {
     loadProfile();
@@ -149,14 +163,19 @@ export const Profile = () => {
   return (
     <div className="min-h-screen bg-gray-50 mr-64 p-6">
       <div className="max-w-4xl mx-auto space-y-8">
-        {/* Header */}
-        <div className="text-center py-8 lg:py-12">
-          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-foreground mb-4">
-            Your Profile
-          </h1>
-          <p className="text-lg sm:text-xl text-muted-foreground">
-            Personalize your pregnancy journey
-          </p>
+        {/* Page Title */}
+        <div className="bg-gradient-to-r from-pink-50 to-rose-50 border border-pink-200 rounded-xl p-6 md:p-8 shadow-sm mb-8">
+          <div className="text-center">
+            <div className="flex items-center justify-center gap-3 mb-4">
+              <User className="w-8 h-8 text-pink-600" />
+              <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900">
+                Your Profile
+              </h1>
+            </div>
+            <p className="text-lg md:text-xl text-gray-600 max-w-2xl mx-auto">
+              Personalize your pregnancy journey
+            </p>
+          </div>
         </div>
 
         {/* Profile Picture */}
@@ -296,6 +315,75 @@ export const Profile = () => {
             </Card>
           </div>
         )}
+
+        {/* Theme Customization */}
+        <div className="flex justify-center">
+          <Card className="bg-card/80 backdrop-blur shadow-card border-0 w-full max-w-2xl">
+            <CardHeader className="pb-4">
+              <CardTitle className="flex items-center gap-2 text-xl">
+                <Palette className="w-6 h-6 text-primary" />
+                Theme Customization
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-6">
+              {/* Dark Mode Toggle */}
+              <div className="flex items-center justify-between p-4 border rounded-lg">
+                <div className="flex items-center gap-3">
+                  {isDarkMode ? <Moon className="w-5 h-5" /> : <Sun className="w-5 h-5" />}
+                  <div>
+                    <Label htmlFor="darkMode" className="text-base font-medium">
+                      Dark Mode
+                    </Label>
+                    <p className="text-sm text-muted-foreground">
+                      Switch between light and dark themes
+                    </p>
+                  </div>
+                </div>
+                <Switch
+                  id="darkMode"
+                  checked={isDarkMode}
+                  onCheckedChange={toggleDarkMode}
+                />
+              </div>
+
+              {/* Sidebar Color Selection */}
+              <div className="space-y-3">
+                <Label className="text-base font-medium">Sidebar Color</Label>
+                <p className="text-sm text-muted-foreground">
+                  Choose your preferred sidebar color scheme
+                </p>
+                <div className="grid grid-cols-2 gap-3">
+                  {sidebarColors.map((color) => (
+                    <div
+                      key={color.value}
+                      className={`p-3 border rounded-lg cursor-pointer transition-all ${
+                        sidebarColor === color.value
+                          ? 'border-primary ring-2 ring-primary/20'
+                          : 'border-border hover:border-primary/50'
+                      }`}
+                      onClick={() => setSidebarColor(color.value)}
+                    >
+                      <div className="flex items-center gap-3">
+                        <div className={`w-6 h-6 rounded-full ${color.preview}`} />
+                        <span className="text-sm font-medium">{color.label}</span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Preview */}
+              <div className="space-y-3">
+                <Label className="text-base font-medium">Preview</Label>
+                <div className="p-4 border rounded-lg bg-muted/50">
+                  <div className={`h-16 rounded-lg ${sidebarColors.find(c => c.value === sidebarColor)?.preview} flex items-center justify-center`}>
+                    <span className="text-white font-medium">Sidebar Preview</span>
+                  </div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
 
         {/* Sign Out Button */}
         <div className="flex justify-center">

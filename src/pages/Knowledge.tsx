@@ -98,17 +98,19 @@ export const Knowledge = () => {
   return (
     <div className="min-h-screen bg-gray-50 mr-64 pt-20 pb-8">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-6xl">
-        {/* Header */}
-        <div className="text-center py-8 lg:py-12">
-          <div className="flex items-center justify-center gap-3 mb-6">
-            <BookOpen className="w-10 h-10 text-primary" />
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-foreground">
-              Knowledge Base
-            </h1>
+        {/* Page Title */}
+        <div className="bg-gradient-to-r from-pink-50 to-rose-50 border border-pink-200 rounded-xl p-6 md:p-8 shadow-sm mb-8">
+          <div className="text-center">
+            <div className="flex items-center justify-center gap-3 mb-4">
+              <BookOpen className="w-8 h-8 text-pink-600" />
+              <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900">
+                Knowledge Base
+              </h1>
+            </div>
+            <p className="text-lg md:text-xl text-gray-600 max-w-2xl mx-auto">
+              Everything you need to know about pregnancy, childbirth, and early motherhood
+            </p>
           </div>
-          <p className="text-lg sm:text-xl text-muted-foreground max-w-3xl mx-auto">
-            Everything you need to know about pregnancy, childbirth, and early motherhood
-          </p>
         </div>
 
         {/* Search and Filters */}

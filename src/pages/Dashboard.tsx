@@ -176,14 +176,19 @@ export const Dashboard = ({ currentWeek }: DashboardProps) => {
 
         {/* Main Content */}
         <div className="p-4 md:p-6 space-y-8">
-          {/* Welcome Message */}
-          <div className="bg-white rounded-lg shadow-sm border-0 p-6">
-            <h1 className="text-3xl font-bold text-gray-900 mb-2">
-              Hi {userName || "there"}! 👋
-            </h1>
-            <p className="text-lg text-gray-600">
-              Welcome to your pregnancy journey dashboard
-            </p>
+          {/* Page Title */}
+          <div className="bg-gradient-to-r from-pink-50 to-rose-50 border border-pink-200 rounded-xl p-6 md:p-8 shadow-sm">
+            <div className="text-center">
+              <div className="flex items-center justify-center gap-3 mb-4">
+                <Calendar className="w-8 h-8 text-pink-600" />
+                <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900">
+                  Dashboard
+                </h1>
+              </div>
+              <p className="text-lg md:text-xl text-gray-600 max-w-2xl mx-auto">
+                Hi {userName || "there"}! Welcome to your pregnancy journey dashboard
+              </p>
+            </div>
           </div>
 
           {/* Progress Section */}

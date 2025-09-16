@@ -13,20 +13,23 @@ import { Appointments } from "./pages/Appointments";
 import { Auth } from "./pages/Auth";
 import { Pricing } from "./pages/Pricing";
 import { Diary } from "./pages/Diary";
+import { You } from "./pages/You";
 import { RightSidebar } from "./components/RightSidebar";
 import { MobileMenu } from "./components/MobileMenu";
 import { AuthProvider } from "./contexts/AuthContext";
+import { ThemeProvider } from "./contexts/ThemeContext";
 import { ProtectedRoute } from "./components/ProtectedRoute";
 
 const queryClient = new QueryClient();
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
-    <AuthProvider>
-      <TooltipProvider>
-        <Toaster />
-        <Sonner />
-        <BrowserRouter>
+    <ThemeProvider>
+      <AuthProvider>
+        <TooltipProvider>
+          <Toaster />
+          <Sonner />
+          <BrowserRouter>
           <Routes>
             <Route path="/auth" element={<Auth />} />
             <Route path="/" element={
@@ -69,6 +72,11 @@ const App = () => (
                 <Diary />
               </ProtectedRoute>
             } />
+            <Route path="/you" element={
+              <ProtectedRoute>
+                <You />
+              </ProtectedRoute>
+            } />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
@@ -77,6 +85,7 @@ const App = () => (
         </BrowserRouter>
       </TooltipProvider>
     </AuthProvider>
+    </ThemeProvider>
   </QueryClientProvider>
 );
 

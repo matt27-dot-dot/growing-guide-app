@@ -200,6 +200,45 @@ export type Database = {
         }
         Relationships: []
       }
+      health_entries: {
+        Row: {
+          id: string
+          user_id: string
+          date: string
+          weight: number
+          blood_pressure_systolic: number | null
+          blood_pressure_diastolic: number | null
+          heart_rate: number | null
+          notes: string | null
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          user_id: string
+          date: string
+          weight: number
+          blood_pressure_systolic?: number | null
+          blood_pressure_diastolic?: number | null
+          heart_rate?: number | null
+          notes?: string | null
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          user_id?: string
+          date?: string
+          weight?: number
+          blood_pressure_systolic?: number | null
+          blood_pressure_diastolic?: number | null
+          heart_rate?: number | null
+          notes?: string | null
+          created_at?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           baby_name: string | null
@@ -210,6 +249,10 @@ export type Database = {
           profile_picture: string | null
           updated_at: string
           user_id: string
+          height: number | null
+          age: number | null
+          pre_pregnancy_weight: number | null
+          due_date: string | null
         }
         Insert: {
           baby_name?: string | null
@@ -220,6 +263,10 @@ export type Database = {
           profile_picture?: string | null
           updated_at?: string
           user_id: string
+          height?: number | null
+          age?: number | null
+          pre_pregnancy_weight?: number | null
+          due_date?: string | null
         }
         Update: {
           baby_name?: string | null
@@ -230,6 +277,10 @@ export type Database = {
           profile_picture?: string | null
           updated_at?: string
           user_id?: string
+          height?: number | null
+          age?: number | null
+          pre_pregnancy_weight?: number | null
+          due_date?: string | null
         }
         Relationships: []
       }
